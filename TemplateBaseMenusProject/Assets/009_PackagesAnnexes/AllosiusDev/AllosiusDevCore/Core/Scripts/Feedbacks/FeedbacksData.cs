@@ -1,14 +1,10 @@
-//
-// Updated by Allosius(Yanis Q.) on 7/9/2022.
-//
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 
-namespace AllosiusDevUtilities
+namespace AllosiusDevCore
 {
 
     [CreateAssetMenu(fileName = "New FeedbacksData", menuName = "AllosiusDev/FeedbacksData")]
@@ -67,11 +63,11 @@ namespace AllosiusDevUtilities
         [TabGroup("GameObject")]
         [GUIColor(1, 0, 0)]
         [Button(ButtonSizes.Medium)]
-        public void AddFeedbackReturnInitialColorSprite()
+        public void AddFeedbackTimerChangeColorSprite()
         {
             Feedback feedback = new Feedback();
-            feedback.Type = Feedback.FeedbackType.ReturnInitialColorSprite;
-            feedback.IsFeedbackReturnInitialColorSprite = true;
+            feedback.Type = Feedback.FeedbackType.TimerChangeColorSprite;
+            feedback.IsFeedbackTimerChangeColorSprite = true;
             feedback.Initialized = true;
             feedbacks.Add(feedback);
         }
@@ -88,7 +84,7 @@ namespace AllosiusDevUtilities
             {
                 if (item.Initialized == false)
                 {
-                    //Debug.Log("OnBeforeSerialize");
+                    Debug.Log("OnBeforeSerialize");
 
                     item.IsFeedbackWait = true;
                     item.Initialized = true;
@@ -100,7 +96,7 @@ namespace AllosiusDevUtilities
             {
                 if (item.Initialized == false)
                 {
-                    //Debug.Log("OnBeforeSerialize");
+                    Debug.Log("OnBeforeSerialize");
 
                     item.IsFeedbackPlaySound = true;
                     item.Initialized = true;
@@ -112,7 +108,7 @@ namespace AllosiusDevUtilities
             {
                 if (item.Initialized == false)
                 {
-                    //Debug.Log("OnBeforeSerialize");
+                    Debug.Log("OnBeforeSerialize");
 
                     item.IsFeedbackInstantiateObject = true;
                     item.Initialized = true;
@@ -124,7 +120,7 @@ namespace AllosiusDevUtilities
             {
                 if (item.Initialized == false)
                 {
-                    //Debug.Log("OnBeforeSerialize");
+                    Debug.Log("OnBeforeSerialize");
 
                     item.IsFeedbackChangeColorSprite = true;
                     item.Initialized = true;
@@ -132,23 +128,23 @@ namespace AllosiusDevUtilities
 
                 return item.feedbackChangeColorSprite;
             }
-            else if (item.Type == Feedback.FeedbackType.ReturnInitialColorSprite)
+            else if (item.Type == Feedback.FeedbackType.TimerChangeColorSprite)
             {
                 if (item.Initialized == false)
                 {
-                    //Debug.Log("OnBeforeSerialize");
+                    Debug.Log("OnBeforeSerialize");
 
-                    item.IsFeedbackReturnInitialColorSprite = true;
+                    item.IsFeedbackTimerChangeColorSprite = true;
                     item.Initialized = true;
                 }
 
-                return item.feedbackReturnInitialColorSprite;
+                return item.feedbackTimerChangeColorSprite;
             }
 
             return null;
         }
 
-        public IEnumerator CoroutineExecute(GameObject _owner)
+        public IEnumerator Execute(FeedbacksReader _owner)
         {
             Debug.Log("Execute");
             foreach (var item in feedbacks)
@@ -157,35 +153,6 @@ namespace AllosiusDevUtilities
                 yield return GetTypeFeedback(item).Execute(_owner);
             }
         }
-
-        public void SetTarget(Vector3 _target)
-        {
-            Debug.Log("Set Target");
-            foreach (var item in feedbacks)
-            {
-                GetTypeFeedback(item).SetTarget(_target);
-            }
-        }
-
-        public void SetSpriteRenderer(SpriteRenderer _targetRenderer)
-        {
-            Debug.Log("Set Sprite Renderer");
-            foreach (var item in feedbacks)
-            {
-                GetTypeFeedback(item).SetSpriteRenderer(_targetRenderer);
-            }
-        }
-
-        public void SetSpriteRendererBaseColor(Color _baseColor)
-        {
-            Debug.Log("Set Sprite Renderer Base Color");
-            foreach (var item in feedbacks)
-            {
-                GetTypeFeedback(item).SetSpriteRendererBaseColor(_baseColor);
-            }
-        }
-
-
 
         protected override void OnBeforeSerialize()
         {
@@ -206,11 +173,14 @@ namespace AllosiusDevUtilities
         public enum FeedbackType
         {
             Default,
+
             Wait,
+
             PlaySound,
+
             InstantiateObject,
             ChangeColorSprite,
-            ReturnInitialColorSprite,
+            TimerChangeColorSprite,
         }
         public FeedbackType Type;
 
@@ -241,10 +211,11 @@ namespace AllosiusDevUtilities
         [GUIColor(1, 0, 0)]
         public FeedbackChangeColorSprite feedbackChangeColorSprite;
 
-        public bool IsFeedbackReturnInitialColorSprite { get; set; }
-        [ShowIfGroup("IsFeedbackReturnInitialColorSprite")]
-        [BoxGroup("IsFeedbackReturnInitialColorSprite/Feedback Return Initial Color Sprite")]
+        public bool IsFeedbackTimerChangeColorSprite { get; set; }
+        [ShowIfGroup("IsFeedbackTimerChangeColorSprite")]
+        [BoxGroup("IsFeedbackTimerChangeColorSprite/Feedback Timer Change Color Sprite")]
         [GUIColor(1, 0, 0)]
-        public FeedbackReturnInitialColorSprite feedbackReturnInitialColorSprite;
+        public FeedbackTimerChangeColorSprite feedbackTimerChangeColorSprite;
+
     }
 }

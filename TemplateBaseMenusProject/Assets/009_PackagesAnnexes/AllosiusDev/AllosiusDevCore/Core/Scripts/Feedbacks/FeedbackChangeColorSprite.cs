@@ -1,28 +1,27 @@
-//
-// Updated by Allosius(Yanis Q.) on 7/9/2022.
-//
-
+using AllosiusDevCore;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-namespace AllosiusDevUtilities
+namespace AllosiusDevCore
 {
     [Serializable]
     public class FeedbackChangeColorSprite : BaseFeedback
     {
         public Color newSpriteColor;
 
-        public override IEnumerator Execute(GameObject _owner)
+        public override IEnumerator Execute(FeedbacksReader _owner)
         {
-            if (IsActive)
+            if (IsActive && _owner.activeEffects)
             {
-                if(spriteRenderer != null)
+                if (_owner.SpriteRenderer != null)
                 {
                     Debug.Log("ChangeColor");
-                    spriteRenderer.color = newSpriteColor;
+                    _owner.SpriteRenderer.color = newSpriteColor;
+                }
+                else if (_owner.GetComponent<SpriteRenderer>() != null)
+                {
+                    _owner.GetComponent<SpriteRenderer>().color = newSpriteColor;
                 }
                 else
                 {

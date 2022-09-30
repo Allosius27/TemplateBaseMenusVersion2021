@@ -1,13 +1,10 @@
-//
-// Updated by Allosius(Yanis Q.) on 7/9/2022.
-//
-
+using AllosiusDevCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AllosiusDevUtilities
+namespace AllosiusDevCore
 {
     [Serializable]
     public class FeedbackInstantiateObject : BaseFeedback
@@ -15,17 +12,13 @@ namespace AllosiusDevUtilities
         public GameObject objectToInstantiate;
         public Vector3 objectPositionOffset;
 
-        public override IEnumerator Execute(GameObject _owner)
+        public override IEnumerator Execute(FeedbacksReader _owner)
         {
-            if(hasTarget)
+            if (IsActive && _owner.activeEffects)
             {
-                GameObject _feedbackInstantiate = GameObject.Instantiate(objectToInstantiate, target + objectPositionOffset, Quaternion.identity);
-            }
-            else
-            {
-                Debug.LogWarning("Target is null");
                 GameObject _feedbackInstantiate = GameObject.Instantiate(objectToInstantiate, _owner.transform.position + objectPositionOffset, Quaternion.identity);
             }
+
 
             return base.Execute(_owner);
         }
